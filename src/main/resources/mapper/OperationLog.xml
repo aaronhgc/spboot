@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mugen.admin.dao.IOperationLogDao">
+
+    <resultMap id="OperationLogResultMap" type="OperationLog">
+        <result column="operation_id" property="operationId"/>
+        <result column="content" property="content" />
+        <result column="operation_time" property="operationTime" />
+        <result column="operator" property="operator" />
+    </resultMap>
+
+    <sql id="OperationLogColumnList">
+        operation_id, content,operation_time, operator
+	</sql>
+
+    <select id="getOperationLogList" resultMap="OperationLogResultMap" parameterType="hashMap">
+        SELECT
+        <include refid="OperationLogColumnList"/>
+        FROM DS_OPERATION_LOG
+        <where>
+            <if test="operationId != null">operation_id = #{operationId}</if>
+            <if test="content != null">AND content = #{content}</if>
+            <if test="operator != null">AND operator = #{operator}</if>
+            <if test="endDate != null">AND operation_time <![CDATA[>=]]> #{beginDate} AND operation_time <![CDATA[<=]]> #{endDate} </if>
+        </where>
+        limit ${offset},${pageSize}
+    </select>
+
+    <select id="getOperationLogCount"  resultType="java.lang.Integer"  parameterType="hashMap">
+        SELECT
+        count(1)
+        FROM DS_OPERATION_LOG
+        <where>
+            <if test="operationId != null">operation_id = #{operationId}</if>
+            <if test="content != null">AND content = #{content}</if>
+            <if test="operator != null">AND operator = #{operator}</if>
+            <if test="endDate != null">AND operation_time <![CDATA[>=]]> #{beginDate} AND operation_time <![CDATA[<=]]> #{endDate} </if>
+        </where>
+    </select>
+
+    <insert id="addLog" flushCache="true">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="operationId">
+            SELECT LAST_INSERT_ID() AS operation_id
+        </selectKey>
+        INSERT INTO DS_OPERATION_LOG(
+        content, operator, operation_time
+        ) VALUES (
+        #{content} ,#{operator},UNIX_TIMESTAMP(NOW())
+        )
+    </insert>
+
+</mapper>

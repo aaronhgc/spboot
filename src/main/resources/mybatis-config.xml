@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+<configuration>
+	<settings>
+    	<setting name="cacheEnabled" value="false"/>
+    </settings>
+<!-- ##generate by template begin## -->
+<!-- generate date:2015-03-22 15:32:32-->
+    <typeAliases>
+        <typeAlias alias="task" type="com.ddb.message.model.Task"/>
+        <typeAlias alias="emailTemplateSource" type="com.ddb.message.email.model.EmailTemplateSource"/>
+        <typeAlias alias="messageTemplate" type="com.ddb.message.model.MessageTemplate"/>
+        <typeAlias alias="notifications" type="com.ddb.message.model.Notifications"/>
+        <typeAlias alias="notifyDetail" type="com.ddb.message.model.NotifyDetail"/>
+        <typeAlias alias="notify" type="com.ddb.message.model.Notify"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="mapper/Task.xml" />
+        <mapper resource="mapper/EmailTemplateSource.xml" />
+        <mapper resource="mapper/MessageTemplate.xml" />
+        <mapper resource="mapper/Notify.xml" />
+        <mapper resource="mapper/NotifyDetail.xml" />
+        <mapper resource="mapper/Notifications.xml" />
+
+    </mappers>
+    
+</configuration>
